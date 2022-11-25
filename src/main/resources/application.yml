@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3307/project?characterEncoding=utf-8
+    username: root
+    password: 123456
+server:
+  port: 8082
+  servlet:
+    context-path: /project
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    call-setters-on-nulls: true
+  global-config:
+    db-config:
+      id-type: assign_id

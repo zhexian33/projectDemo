@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <style>
+        .el-table .warning-row {
+            background: oldlace;
+        }
+
+        .el-table .success-row {
+            background: #f0f9eb;
+        }
+    </style>
+
+</head>
+<body>
+<div id="app">
+    <el-dialog
+            title="编辑用户"
+            :visible.sync="dialogVisible_add"
+            width="30%">
+        <el-form ref="form" :model="user_add" label-width="80px">
+            <el-form-item label="username">
+                <el-input v-model="user_add.username"></el-input>
+            </el-form-item>
+            <el-form-item label="password">
+                <el-input v-model="user_add.password"></el-input>
+            </el-form-item>
+            <el-form-item>
+                <el-button type="primary" @click="addUser">提交</el-button>
+                <el-button @click="dialogVisible_add=false">取消</el-button>
+            </el-form-item>
+        </el-form>
+    </el-dialog>
+    <el-row>
+        <el-button type="primary" plain @click="dialogVisible_add=true">新增</el-button>
+        <el-button type="primary" plain @click="getList">查询所有</el-button>
+        <el-input v-model="selectId"></el-input>
+        <el-button type="primary" plain @click="getById">id查询</el-button>
+    </el-row>
+</div>
+    <script src="../js/axios.js"></script>
+    <script src="../js/vue.js"></script>
+    <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<script>
+new Vue({
+    el:"#app",
+    data(){
+        return {
+            dialogVisible_add:false,
+            user_add:{
+                id:"",
+                username:"",
+                password:""
+            },
+            selectId:"",
+        }
+    },
+    methods:{
+        addUser(){
+            axios({
+                method:"post",
+                url:"/project/user",
+                data:this.user_add
+            }).then(res=>{
+                this.$message({
+                    message: res.data.data,
+                    type: 'success'
+                });
+            });
+        },
+        getList(){
+            axios({
+                method:"get",
+                url:"/project/user/page"
+            }).then(res=>{
+                console.log(res.data.data);
+            });
+        },
+        getById(){
+            axios({
+                method:"get",
+                url:"/project/user/"+this.selectId
+            }).then(res=>{
+                console.log(res.data.data);
+            });
+        }
+    },
+    mounted(){
+
+    }
+});
+</script>
+</body>
+</html>
